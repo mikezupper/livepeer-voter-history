@@ -22,6 +22,14 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { useLoaderData } from 'react-router-dom';
 import { alpha } from '@mui/material/styles'; // Import alpha utility
 
+// Utility function for formatting numbers
+const formatNumber = (number) => {
+    return number.toLocaleString(undefined, { // 'undefined' uses the user's locale
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    });
+};
+
 const VotingHistoryList = () => {
     // proposals is an array: [{ id: ..., title: ..., proposerAddress: ..., votes: [...] }, ...]
     const { proposals } = useLoaderData();
@@ -223,7 +231,7 @@ const VotingHistoryList = () => {
                                                         <TableCell>{vote.support}</TableCell>
                                                         <TableCell>
                                                             {typeof vote.stakeAmount === 'number'
-                                                                ? vote.stakeAmount.toFixed(2)
+                                                                ? formatNumber(vote.stakeAmount)
                                                                 : vote.stakeAmount}
                                                         </TableCell>
                                                     </TableRow>
@@ -249,4 +257,3 @@ const VotingHistoryList = () => {
 };
 
 export default VotingHistoryList;
-
