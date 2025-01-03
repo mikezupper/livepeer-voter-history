@@ -223,7 +223,7 @@ const VotingHistoryList = () => {
                                                         <TableCell>{vote.support}</TableCell>
                                                         <TableCell>
                                                             {typeof vote.stakeAmount === 'number'
-                                                                ? vote.stakeAmount.toFixed(6)
+                                                                ? vote.stakeAmount.toFixed(2)
                                                                 : vote.stakeAmount}
                                                         </TableCell>
                                                     </TableRow>
