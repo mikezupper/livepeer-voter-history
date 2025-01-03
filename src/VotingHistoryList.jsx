@@ -14,7 +14,7 @@ import {
     Divider,
     useTheme,
     useMediaQuery,
-    IconButton,
+    IconButton, Grid, Avatar,
 } from '@mui/material';
 import BallotIcon from '@mui/icons-material/Ballot';
 import HowToVoteIcon from '@mui/icons-material/HowToVote';
@@ -186,6 +186,7 @@ const VotingHistoryList = () => {
                                     <TableBody>
                                         {selectedProposalData.votes && selectedProposalData.votes.length > 0 ? (
                                             selectedProposalData.votes.map((vote, idx) => {
+
                                                 // Determine faint background color based on vote.support
                                                 let bgColor = 'inherit';
                                                 switch (vote.support) {
@@ -201,7 +202,7 @@ const VotingHistoryList = () => {
                                                     default:
                                                         bgColor = 'inherit';
                                                 }
-
+                                                const voterName = (vote.voterName === '' ? vote.voterAddress : vote.voterName);
                                                 return (
                                                     <TableRow
                                                         key={idx}
@@ -210,7 +211,14 @@ const VotingHistoryList = () => {
                                                         }}
                                                     >
                                                         <TableCell>
-                                                            {vote.voterName === '' ? vote.voterAddress : vote.voterName}
+                                                            <Grid container alignItems="center" spacing={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                                                                <Grid item>
+                                                                    <Avatar src={vote.voterAvatar} alt={voterName} sx={{ width: 24, height: 24 }}/>
+                                                                </Grid>
+                                                                <Grid item>
+                                                                    <Typography variant="inherit">{voterName}</Typography>
+                                                                </Grid>
+                                                            </Grid>
                                                         </TableCell>
                                                         <TableCell>{vote.support}</TableCell>
                                                         <TableCell>
