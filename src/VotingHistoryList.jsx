@@ -168,7 +168,14 @@ const VotingHistoryList = () => {
                                     <strong>Proposer:</strong> {selectedProposalData.proposerName !=='' ? selectedProposalData.proposerName: selectedProposalData.proposerAddress}
                                 </Typography>
                             </Box>
-
+                            <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <HowToVoteIcon fontSize="small" color="action" />
+                                <Typography variant="body2">
+                                    <strong>Total Stake Voted:</strong> {typeof selectedProposalData.totalStakeVoted === 'number'
+                                    ? formatNumber(selectedProposalData.totalStakeVoted)
+                                    : selectedProposalData.totalStakeVoted}
+                                </Typography>
+                            </Box>
                             <Divider sx={{ my: 2 }} />
 
                             {/* Votes Table */}
@@ -187,8 +194,10 @@ const VotingHistoryList = () => {
                                             }}
                                         >
                                             <TableCell sx={{ fontWeight: 'bold' }}>Voter</TableCell>
-                                            <TableCell sx={{ fontWeight: 'bold' }}>Vote</TableCell>
-                                            <TableCell sx={{ fontWeight: 'bold' }}>Weighted Stake (ETH)</TableCell>
+                                            <TableCell sx={{ fontWeight: 'bold' }}>Support</TableCell>
+                                            <TableCell sx={{ fontWeight: 'bold' }}>Stake (ETH)</TableCell>
+                                            <TableCell sx={{ fontWeight: 'bold' }}>% of Vote</TableCell>
+                                            {/*<TableCell sx={{ fontWeight: 'bold' }}>Timestamp</TableCell>*/}
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -210,7 +219,7 @@ const VotingHistoryList = () => {
                                                     default:
                                                         bgColor = 'inherit';
                                                 }
-                                                const voterName = (vote.voterName === '' ? vote.voterAddress : vote.voterName);
+                                                const voterName = (vote.voterName === '' ? `${vote.voterAddress.substring(0, 6)}...${vote.voterAddress.substring(vote.voterAddress.length - 4)}` : `${vote.voterName}`);
                                                 return (
                                                     <TableRow
                                                         key={idx}
@@ -234,6 +243,10 @@ const VotingHistoryList = () => {
                                                                 ? formatNumber(vote.stakeAmount)
                                                                 : vote.stakeAmount}
                                                         </TableCell>
+                                                        <TableCell>
+                                                            {formatNumber(vote.stakeAmount / selectedProposalData.totalStakeVoted * 100)}%
+                                                        </TableCell>
+                                                        {/*<TableCell>{new Date(vote.castAt * 1000).toLocaleString()}</TableCell>*/}
                                                     </TableRow>
                                                 );
                                             })

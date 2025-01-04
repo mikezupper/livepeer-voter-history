@@ -129,7 +129,7 @@ async function fetchAndStoreProposals() {
 
 // 5. Query the CastVote events and store them in IndexedDB.
 async function fetchAndStoreVotes() {
-    console.log(`Fetching vote for proposals`);
+    console.log(`Fetching votes for proposals`);
 
     const latestBlock = await provider.getBlockNumber();
     const fromBlock = await getLastVoteProcessedBlock();
@@ -279,6 +279,11 @@ export default class DataServices {
             votes.sort((a, b) => b.stakeAmount - a.stakeAmount);
 
             proposal.votes = votes;
+            // Sum up the stakeAmount from all votes
+            proposal.totalStakeVoted = votes.reduce((accumulator, vote) => {
+                return accumulator + vote.stakeAmount;
+            }, 0);
+
         }
         proposals.sort((a, b) => b.createdAt - a.createdAt);
 
